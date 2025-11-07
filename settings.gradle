@@ -1,0 +1,10 @@
+rootProject.name = 'shopify-shiprocket-integration'
+include 'modules:common',
+        'modules:auth',
+        'modules:shopify',
+        'modules:shiprocket',
+        'modules:orders',
+        'modules:inventory',
+        'modules:sync',
+        'modules:webhooks'
+
