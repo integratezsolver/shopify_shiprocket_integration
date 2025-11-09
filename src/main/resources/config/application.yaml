@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: Integratez Platform
+
+  profiles:
+    active: dev  # default active profile (change to prod/test as needed)
+    group:
+      dev: "dev"
+      test: "test"
+      prod: "prod"
+
+  config:
+    import:
+      - classpath:config/application-dev.yaml
+      - classpath:config/application-test.yaml
+      - classpath:config/application-prod.yaml
+
+# Common JPA Configurations (apply to all profiles)
+jpa:
+  hibernate:
+    ddl-auto: update
+  show-sql: true
+  properties:
+    hibernate:
+      format_sql: true
+
+cloud:
+  compatibility-verifier:
+    enabled: false

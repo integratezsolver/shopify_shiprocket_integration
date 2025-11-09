@@ -1,0 +1,22 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/integratez_test
+    username: root
+    password: test123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+server:
+  port: 8081
+
+logging:
+  level:
+    root: WARN
+    com.integratez: DEBUG
