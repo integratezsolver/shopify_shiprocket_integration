@@ -11,10 +11,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ShopifyAuthService {
 
 
-    private String apiKey =  "d1a1cebc6be085f5a3a76ee8c5d93ef7";
-
-
-    public String apiSecret= "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";
 
 
     private String redirectUri="https://casimira-inductile-affectedly.ngrok-free.dev/shopify/callback";
