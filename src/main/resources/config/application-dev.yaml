@@ -35,8 +35,6 @@ mail:
           enable: true
 
 shopify:
-
-scopes: read_orders,write_orders,read_products,write_products,read_fulfillments,write_fulfillments
 redirect-uri: https://casimira-inductile-affectedly.ngrok-free.dev/shopify/callback
 access-mode: online
 api-version: 2025-10 # keep current
