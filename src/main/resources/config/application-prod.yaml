@@ -1,0 +1,32 @@
+spring:
+  config:
+    activate:
+      on-profile: prod
+
+  datasource:
+    url: jdbc:mysql://prod-db-server:3306/integratez_prod
+    username: prod_user
+    password: ${DB_PASSWORD}   # use environment variable for security
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+
+server:
+  port: 8080
+
+logging:
+  level:
+    root: WARN
+    com.integratez: INFO
+
+
+  shopify:
+  client-id: 95309d3d3af210ada84f2ef2c31e51cf
+  client-secret: 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
+  scopes: read_orders,write_orders,read_products,write_products,read_fulfillments,write_fulfillments
+  redirect-uri: https://casimira-inductile-affectedly.ngrok-free.dev/shopify/callback
+  access-mode: online
+  api-version: 2025-10 # keep current
+  app-url: https://casimira-inductile-affectedly.ngrok-free.dev
