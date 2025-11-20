@@ -1,7 +1,9 @@
 package com.integratez.platform.modules.auth.controller;
 
 import com.integratez.platform.modules.auth.dto.LoginRequest;
+import com.integratez.platform.modules.auth.dto.OtpRequest;
 import com.integratez.platform.modules.auth.dto.RegisterRequest;
+import com.integratez.platform.modules.auth.dto.ResetPasswordRequest;
 import com.integratez.platform.modules.auth.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,24 @@ public class AuthController {
     public String login(@RequestBody LoginRequest req) {
         return authService.login(req.getUsername(), req.getPassword());
     }
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<String> forgotPassword(@RequestParam String email) {
+        return authService.forgotPassword(email);
+    }
+
+
+    @PostMapping("/verify-otp")
+    public ResponseEntity<String> verifyOtp(@RequestBody OtpRequest request) {
+        return authService.verifyOtp(request);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<String> resetPassword(@RequestBody ResetPasswordRequest request) {
+        return authService.resetPassword(request);
+    }
+
 
     @GetMapping("/verify")
     public ResponseEntity<String> verifyEmail(@RequestParam String token) {

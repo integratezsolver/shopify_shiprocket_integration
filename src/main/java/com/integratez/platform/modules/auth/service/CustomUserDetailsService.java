@@ -1,6 +1,6 @@
 package com.integratez.platform.modules.auth.service;
 
-import com.integratez.platform.modules.auth.model.User;
+import com.integratez.platform.modules.auth.domain.User;
 import com.integratez.platform.modules.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

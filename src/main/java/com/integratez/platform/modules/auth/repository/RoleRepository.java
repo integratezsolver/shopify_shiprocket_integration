@@ -1,6 +1,6 @@
 package com.integratez.platform.modules.auth.repository;
 
-import com.integratez.platform.modules.auth.model.Role;
+import com.integratez.platform.modules.auth.domain.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

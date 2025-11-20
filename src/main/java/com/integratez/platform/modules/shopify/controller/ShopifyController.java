@@ -1,27 +1,38 @@
 package com.integratez.platform.modules.shopify.controller;
 
-import com.integratez.platform.modules.shopify.service.ShopifyAuthService;
-import com.integratez.platform.modules.shopify.util.HmacValidator;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.integratez.platform.modules.common.domain.AccountStatus;
+import com.integratez.platform.modules.common.domain.IntegrationCredentials;
+import com.integratez.platform.modules.common.repository.IntegrationAccountRepository;
+import com.integratez.platform.modules.common.repository.IntegrationCredentialsRepository;
+import com.integratez.platform.modules.shopify.config.ShopifyProperties;
+import com.integratez.platform.modules.shopify.service.ShopifyService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/shopify")
+@RequiredArgsConstructor
 public class ShopifyController {
 
-    @Autowired
-    private ShopifyAuthService authService;
+    private final IntegrationCredentialsRepository integrationCredentialsRepository;
+    private final IntegrationAccountRepository integrationAccountRepository;
+    private final ShopifyService shopifyService;
 
-    // 1️⃣ Entry endpoint
+
     @GetMapping("/install")
     public ResponseEntity<String> install(@RequestParam String shop) {
-        String redirectUrl = "https://" + shop + "/admin/oauth/authorize?client_id=" +
-                authService.getApiKey() +
-                "&scope=" + authService.getScopes() +
-                "&redirect_uri=" + authService.getRedirectUri();
+
+        Optional<IntegrationCredentials> existingCredential = integrationCredentialsRepository.findByKeyAndValue("shopName", shop);
+
+        if ((existingCredential.isPresent()) && (integrationAccountRepository.getStatusById(existingCredential.get().getIntegrationAccount().getId()) ==   AccountStatus.ACTIVE) ){
+
+            return ResponseEntity.ok( "https://your-onboarding-page-url.com");
+        }
+
+        String redirectUrl= shopifyService.generateInstallUrl(shop);
 
         String html = """
             <html>
@@ -40,13 +51,10 @@ public class ShopifyController {
         return ResponseEntity.ok(html);
     }
 
-    // 2️⃣ Top-level redirect page (breaks out of iframe)
+
     @GetMapping("/toplevel")
     public ResponseEntity<String> toplevel(@RequestParam String shop) {
-        String redirectUrl = "https://" + shop + "/admin/oauth/authorize?client_id=" +
-                authService.getApiKey() +
-                "&scope=" + authService.getScopes() +
-                "&redirect_uri=" + authService.getRedirectUri();
+        String redirectUrl = shopifyService.generateInstallUrl(shop);
 
         String html = """
             <html>
@@ -61,38 +69,16 @@ public class ShopifyController {
         return ResponseEntity.ok(html);
     }
 
-    // 3️⃣ Callback — completes OAuth
+
     @GetMapping("/auth/callback")
     public ResponseEntity<String> callback(@RequestParam Map<String, String> params) {
-        String shop = params.get("shop");
-
-        if (!HmacValidator.isValidHmac(params, authService.getApiSecret())) {
-            return ResponseEntity.badRequest().body("Invalid HMAC");
-        }
-
         try {
-            String token = authService.exchangeCodeForToken(shop, params.get("code"));
-
-            String html = """
-                <html>
-                  <body>
-                    <h2>✅ Installed for %s</h2>
-                    <p>Access token saved successfully!</p>
-                    <script>
-                      // Redirect to your embedded app home
-                      window.top.location.href = "https://admin.shopify.com/store/%s/apps/shiprocket-integration";
-                    </script>
-                  </body>
-                </html>
-            """.formatted(shop, shop.replace(".myshopify.com", ""));
-            return ResponseEntity.ok(html);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError()
-                    .body("<h3>Callback error: " + e.getMessage() + "</h3>");
+            shopifyService.handleShopifyCallback(params);
+            String successUrl = "https://your-success-url.com";
+            return ResponseEntity.status(302).header("Location", successUrl).build();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 }
-
-

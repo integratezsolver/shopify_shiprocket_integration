@@ -1,4 +1,4 @@
-package com.integratez.platform.modules.auth.model;
+package com.integratez.platform.modules.auth.domain;
 
 import jakarta.persistence.*;
 import lombok.*;

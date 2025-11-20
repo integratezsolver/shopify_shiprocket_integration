@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: Integratez Platform
+
+  profiles:
+    active: dev
+    group:
+      dev: dev
+      prod: prod
+
+  config:
+    import:
+      - optional:classpath:config/application-dev.yml
+      - optional:classpath:config/application-prod.yml
+
+# JPA shared config
+jpa:
+  hibernate:
+    ddl-auto: update
+  properties:
+    hibernate:
+      format_sql: true
+  show-sql: false
+
+server:
+  port: 8080
+
+cloud:
+  compatibility-verifier:
+    enabled: false

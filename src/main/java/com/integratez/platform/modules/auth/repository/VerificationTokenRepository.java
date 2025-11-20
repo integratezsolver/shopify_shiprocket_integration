@@ -1,7 +1,7 @@
 package com.integratez.platform.modules.auth.repository;
 
 
-import com.integratez.platform.modules.auth.model.VerificationToken;
+import com.integratez.platform.modules.auth.domain.VerificationToken;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

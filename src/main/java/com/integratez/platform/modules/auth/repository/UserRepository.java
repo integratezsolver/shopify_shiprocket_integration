@@ -1,8 +1,7 @@
 package com.integratez.platform.modules.auth.repository;
 
 
-import com.fasterxml.jackson.databind.introspect.AnnotationCollector;
-import com.integratez.platform.modules.auth.model.User;
+import com.integratez.platform.modules.auth.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -14,4 +13,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsernameOrEmail(String username, String email);
 
     Optional<User> findUserByEmail(String email);
+
+    Optional<User> findByEmail(String email);
 }

@@ -35,4 +35,15 @@ public class EmailService {
 
         mailSender.send(message);
     }
+
+
+
+    public void sendOtp(String to, String otp) {
+        SimpleMailMessage message = new SimpleMailMessage();
+        message.setTo(to);
+        message.setSubject("Password Reset OTP");
+        message.setText("Your OTP is: " + otp + " (Valid for 10 minutes)");
+        mailSender.send(message);
+    }
+
 }

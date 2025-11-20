@@ -4,29 +4,49 @@ spring:
       on-profile: prod
 
   datasource:
-    url: jdbc:mysql://prod-db-server:3306/integratez_prod
-    username: prod_user
-    password: ${DB_PASSWORD}   # use environment variable for security
+    url: jdbc:mysql://zuo1afotqnhnb33v:oobti3oinwfbp1me@d9c88q3e09w6fdb2.cbetxkdyhwsb.us-east-1.rds.amazonaws.com:3306/gqwqqfbi3q4clb1v
+    username: zuo1afotqnhnb33v
+    password: oobti3oinwfbp1me
     driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 2
+      minimum-idle: 1
+      connection-timeout: 20000
+      idle-timeout: 30000
 
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 logging:
   level:
-    root: WARN
+    root: INFO
     com.integratez: INFO
 
+mail:
+    host: smtp.gmail.com
+    port: 587
+    username: jayy15536@gmail.com
+    password: "skpq vwsh cpex jxbo"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        baseurl: https://YOUR-HEROKU-URL.herokuapp.com
 
-  shopify:
-  client-id: 95309d3d3af210ada84f2ef2c31e51cf
-  client-secret: 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
+shopify:
+  api-key: 95309d3d3af210ada84f2ef2c31e51cf
+  api-secret: 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
   scopes: read_orders,write_orders,read_products,write_products,read_fulfillments,write_fulfillments
-  redirect-uri: https://casimira-inductile-affectedly.ngrok-free.dev/shopify/callback
+  redirect-uri: https://intgratez-shiprocket-d19e94da4801.herokuapp.com/shopify/callback
   access-mode: online
-  api-version: 2025-10 # keep current
-  app-url: https://casimira-inductile-affectedly.ngrok-free.dev
+  api-version: 2025-10
+  app-url: https://intgratez-shiprocket-d19e94da4801.herokuapp.com
