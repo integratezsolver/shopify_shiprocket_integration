@@ -5,8 +5,8 @@ spring:
 
   datasource:
     url: jdbc:mysql://localhost:3306/integratez
-    username: root
-    password: Jsk1950@
+    username:
+    password:
     driver-class-name: com.mysql.cj.jdbc.Driver
 
   jpa:
@@ -39,8 +39,8 @@ mail:
       baseurl: https://YOUR-HEROKU-URL.herokuapp.com
 
 shopify:
-  api-key: 3ab8e28a92c2a24a16bde55719f750c1
-  api-secret: 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
+  api-key:
+  api-secret:
   scopes: read_analytics,write_app_proxy,write_assigned_fulfillment_orders,read_audit_events,read_customer_events,write_cart_transforms,read_all_cart_transforms,write_validations,read_cash_tracking,write_channels,write_checkout_branding_settings,write_checkouts,write_companies,write_custom_fulfillment_services,write_custom_pixels,write_customers,write_customer_data_erasure,write_customer_merge,write_delivery_customizations,write_price_rules,write_discounts,write_discounts_allocator_functions,write_discovery,write_draft_orders,write_files,write_fulfillment_constraint_rules,write_fulfillments,write_gift_card_transactions,write_gift_cards,write_inventory,write_inventory_shipments,write_inventory_shipments_received_items,write_inventory_transfers,write_legal_policies,write_delivery_option_generators,write_locales,write_locations,write_marketing_integrated_campaigns,write_marketing_events,write_markets,write_markets_home,write_merchant_managed_fulfillment_orders,write_metaobject_definitions,write_metaobject
   redirect-url: https://verdie-untoadying-unsalubriously.ngrok-free.dev/shopify/auth/callback
   access-mode: online

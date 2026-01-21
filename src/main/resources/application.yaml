@@ -28,7 +28,6 @@ server:
 cloud:
   compatibility-verifier:
     enabled: false
-
 # Shiprocket API Configuration
 shiprocket:
   api:
