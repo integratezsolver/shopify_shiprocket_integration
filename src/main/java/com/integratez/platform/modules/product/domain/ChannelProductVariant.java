@@ -29,7 +29,7 @@ public class ChannelProductVariant {
     @Column(name = "variant_id", nullable = false)
     private Long variantId;       // Shopify variant ID
 
-    @Column(name = "inventory_item_id", nullable = false)
+    @Column(name = "inventory_item_id")
     private Long inventoryItemId; // Required for inventory sync
 
     private String sku;
@@ -38,8 +38,10 @@ public class ChannelProductVariant {
 
     private Double price;
 
-
+    @ManyToOne
+    @JoinColumn(name = "channel_product_id")
+    private ChannelProduct product;
     // 🔥 Relationship: Product → Variants
-    @OneToMany(mappedBy = "variantId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "variant", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChannelProductInventory> inventoryList;
 }

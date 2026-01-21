@@ -28,3 +28,11 @@ server:
 cloud:
   compatibility-verifier:
     enabled: false
+
+# Shiprocket API Configuration
+shiprocket:
+  api:
+    base-url: https://apiv2.shiprocket.in
+    auth-endpoint: /v1/external/auth/login
+    connect-timeout: 5000
+    read-timeout: 10000

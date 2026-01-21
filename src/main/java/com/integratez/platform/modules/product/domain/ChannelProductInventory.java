@@ -27,7 +27,7 @@ public class ChannelProductInventory {
     @Column(name = "variant_id", nullable = false)
     private Long variantId;          // Shopify variant ID
 
-    @Column(name = "inventory_item_id", nullable = false)
+    @Column(name = "inventory_item_id")
     private Long inventoryItemId;    // Shopify inventory item ID (required)
 
     @Column(name = "location_id", nullable = false)
@@ -38,5 +38,10 @@ public class ChannelProductInventory {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+
+    @ManyToOne
+    @JoinColumn(name = "variant_row_id")
+    private ChannelProductVariant variant;
 }
 

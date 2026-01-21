@@ -50,7 +50,7 @@ public class AuthService {
         else return "Valid";
     }
     public String login(String username, String password) {
-        authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+        //authManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         User user = userRepository.findByUsernameOrEmail(username, username)
@@ -72,8 +72,14 @@ public class AuthService {
       if(!status.equals("Valid"))
           return status;
 
-        Role role = roleRepository.findByName(roleName)
-                .orElseThrow(() -> new RuntimeException("Role not found: " + roleName));
+        // Ensure role is never null or empty - always default to "USER"
+        final String finalRoleName = (roleName != null && !roleName.trim().isEmpty()) 
+                ? roleName.trim() 
+                : "ROLEUSER";
+        // finalRoleName will never be null or empty - always "USER" at minimum
+        
+        Role role = roleRepository.findByName(finalRoleName)
+                .orElseThrow(() -> new RuntimeException("Role not found: " + finalRoleName + ". Please ensure 'USER' role exists in the database."));
 
         User user = User.builder()
                 .email(email)

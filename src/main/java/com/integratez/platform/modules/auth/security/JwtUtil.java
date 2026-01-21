@@ -13,7 +13,7 @@ import java.util.function.Function;
 @Component
 public class JwtUtil {
     private static final String SECRET = "hy5b467b7y57b7b35757b4b747537b5yt75735b35v578v5ub6b7457";
-    private static final long EXPIRATION = 1000 * 60 * 60; // 1 hour
+    private static final long EXPIRATION = 1000L * 60 * 60 * 24 * 30; // 1 month
 
     private Key getKey() {
         return Keys.hmacShaKeyFor(SECRET.getBytes());

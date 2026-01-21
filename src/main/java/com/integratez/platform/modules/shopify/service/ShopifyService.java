@@ -15,14 +15,13 @@ import com.integratez.platform.modules.shopify.config.ShopifyProperties;
 import com.integratez.platform.modules.shopify.util.HmacValidator;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.metrics.export.datadog.DatadogProperties;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
-import org.springframework.beans.factory.annotation.Value;
-
 
 import java.time.Instant;
 import java.util.Map;
@@ -31,7 +30,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
-@RequiredArgsConstructor
 @Getter
 public class ShopifyService {
 
@@ -47,13 +45,27 @@ public class ShopifyService {
     @Value("${shopify.scopes}")
     private String SCOPES;
 
-
     private final WebClient webClient;
     private final UserRepository userRepo;
     private final PlatformsRepository platformRepo;
     private final IntegrationAccountRepository integrationAccountRepo;
     private final IntegrationCredentialsRepository credentialsRepo;
     private final ShopifyProperties props;
+
+    public ShopifyService(
+            @Qualifier("webClient") WebClient webClient,
+            UserRepository userRepo,
+            PlatformsRepository platformRepo,
+            IntegrationAccountRepository integrationAccountRepo,
+            IntegrationCredentialsRepository credentialsRepo,
+            ShopifyProperties props) {
+        this.webClient = webClient;
+        this.userRepo = userRepo;
+        this.platformRepo = platformRepo;
+        this.integrationAccountRepo = integrationAccountRepo;
+        this.credentialsRepo = credentialsRepo;
+        this.props = props;
+    }
 
         // -----------------------------------------------
         // Generate Shopify Install URL

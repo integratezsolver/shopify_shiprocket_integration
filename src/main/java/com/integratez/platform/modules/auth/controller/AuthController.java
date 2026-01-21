@@ -21,7 +21,13 @@ public class AuthController {
 
     @PostMapping("/register")
     public String register(@RequestBody RegisterRequest req) {
-        return authService.register( req.getEmail(),req.getUsername(), req.getPassword(), req.getRole());
+        // Always default to "USER" role if not provided, null, or empty
+        String role = "ROLE_USER"; // Default value
+        if (req.getRole() != null && !req.getRole().trim().isEmpty()) {
+            role = req.getRole().trim();
+        }
+        // role will never be null or empty - always "USER" at minimum
+        return authService.register(req.getEmail(), req.getUsername(), req.getPassword(), role);
     }
 
     @PostMapping("/login")

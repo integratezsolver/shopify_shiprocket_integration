@@ -39,7 +39,8 @@ public class ChannelProduct {
     @Column(name= "status")
     private String status;
 
-    @OneToMany(mappedBy = "productId", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ChannelProductVariant> variants;
 }
 

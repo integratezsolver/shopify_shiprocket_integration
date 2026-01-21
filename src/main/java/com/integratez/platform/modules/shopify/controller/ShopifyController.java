@@ -1,16 +1,18 @@
 package com.integratez.platform.modules.shopify.controller;
 
+import com.integratez.platform.modules.auth.domain.User;
+import com.integratez.platform.modules.auth.service.AuthService;
 import com.integratez.platform.modules.common.domain.AccountStatus;
 import com.integratez.platform.modules.common.domain.IntegrationCredentials;
 import com.integratez.platform.modules.common.repository.IntegrationAccountRepository;
 import com.integratez.platform.modules.common.repository.IntegrationCredentialsRepository;
-import com.integratez.platform.modules.shopify.config.ShopifyProperties;
 import com.integratez.platform.modules.shopify.service.ShopifyService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 import java.util.Optional;
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("/shopify")
@@ -20,6 +22,7 @@ public class ShopifyController {
     private final IntegrationCredentialsRepository integrationCredentialsRepository;
     private final IntegrationAccountRepository integrationAccountRepository;
     private final ShopifyService shopifyService;
+    private final AuthService authService;
 
 
     @GetMapping("/install")
@@ -79,6 +82,32 @@ public class ShopifyController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    /**
+     * Used by the embedded app (frontend) to exchange a Shopify shop for a JWT
+     * so that subsequent API calls (e.g. /api/products/**) can be authenticated.
+     */
+    @GetMapping("/app-auth")
+    public ResponseEntity<Map<String, String>> appAuth(@RequestParam String shop) {
+        // Find active integration account for this shop
+        var accountOpt = integrationAccountRepository.findByAccountName(shop);
+
+        if (accountOpt.isEmpty() || accountOpt.get().getStatus() != AccountStatus.ACTIVE) {
+            return ResponseEntity.status(401).body(Map.of("error", "Shop not connected"));
+        }
+
+        User user = accountOpt.get().getUser();
+
+        // Reuse AuthService to generate JWT with the same claims as normal login
+        String token = authService.login(user.getUsername(), "");
+
+        Map<String, String> body = new HashMap<>();
+        body.put("token", token);
+        body.put("username", user.getUsername());
+        body.put("email", user.getEmail());
+
+        return ResponseEntity.ok(body);
     }
 
 }

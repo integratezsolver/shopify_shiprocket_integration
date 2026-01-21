@@ -4,6 +4,7 @@ import com.integratez.platform.modules.auth.domain.User;
 import com.integratez.platform.modules.auth.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,5 +31,10 @@ public class CustomUserDetailsService implements UserDetailsService {
                         .map(role -> new SimpleGrantedAuthority(role.getName()))
                         .collect(Collectors.toSet())
         );
+    }
+
+
+    public String getAuthenticatedUsername() {
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 }

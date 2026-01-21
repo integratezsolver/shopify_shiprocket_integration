@@ -17,6 +17,5 @@ public class RegisterRequest {
     @NotBlank(message = "Password is required")
     private String password;
 
-    @NotBlank(message = "Role is required")
-    private String role; // e.g., ROLE_USER or ROLE_ADMIN
+    private String role; // Optional, defaults to "USER" if not provided
 }

@@ -26,6 +26,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
             throws ServletException, IOException {
 
+        // Skip JWT validation for OPTIONS requests (CORS preflight)
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            chain.doFilter(request, response);
+            return;
+        }
+
         String path = request.getRequestURI();
         if (path.startsWith("/auth/") || path.startsWith("/shopify/")) {
             chain.doFilter(request, response);
