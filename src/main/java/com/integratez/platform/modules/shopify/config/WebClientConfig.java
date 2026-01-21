@@ -12,7 +12,6 @@ public class WebClientConfig {
         return WebClient.builder()
                 .baseUrl("https://" + "wffbqx-si" + ".myshopify.com/admin/api/2024-10/graphql.json")
                 .defaultHeader("Content-Type", "application/json")
-                .defaultHeader("")
                 .build();
     }
 
